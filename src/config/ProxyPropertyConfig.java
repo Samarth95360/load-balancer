@@ -17,7 +17,7 @@ public class ProxyPropertyConfig {
 
     private int healthTimeout;
 
-    private final List<BackendServer> backends =
+    private final List<BackendConfiguration> backends =
             new ArrayList<>();
 
     public int getProxyPort() {
@@ -60,7 +60,7 @@ public class ProxyPropertyConfig {
         this.healthTimeout = healthTimeout;
     }
 
-    public List<BackendServer> getBackends() {
+    public List<BackendConfiguration> getBackends() {
         return backends;
     }
 

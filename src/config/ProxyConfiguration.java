@@ -20,13 +20,16 @@ public class ProxyConfiguration {
 
     private final HttpResponseMapper responseMapper;
 
-    public ProxyConfiguration() {
+    public ProxyConfiguration(ProxyPropertyConfig config) {
 
         this.requestParser = new HttpRequestParser();
-        this.requestForwarder = new RequestForwarder();
+        this.requestForwarder = new RequestForwarder(config);
         this.responseMapper = new HttpResponseMapper();
         this.responseWriter = new HttpResponseWriter();
-        this.backendSelector = new SingleBackendSelector(new BackendServer("localhost",8081));
+
+        BackendConfiguration backend = config.getBackends().getFirst();
+
+        this.backendSelector = new SingleBackendSelector(new BackendServer(backend.getHost(), backend.getPort()));
     }
 
     public HttpResponseMapper getResponseMapper() {
