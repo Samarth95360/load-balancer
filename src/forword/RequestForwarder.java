@@ -1,6 +1,7 @@
 package forword;
 
 import backend.BackendServer;
+import config.ProxyPropertyConfig;
 import http.HttpRequestData;
 
 import java.io.IOException;
@@ -15,9 +16,9 @@ public class RequestForwarder {
     private final HttpClient httpClient;
     private final RequestBodyPublisherFactory publisherFactory;
 
-    public RequestForwarder() {
+    public RequestForwarder(ProxyPropertyConfig config) {
         this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(5))
+                .connectTimeout(Duration.ofSeconds(config.getConnectTimeout()))
                 .followRedirects(HttpClient.Redirect.NEVER)
                 .version(HttpClient.Version.HTTP_1_1).build();
 

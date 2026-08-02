@@ -1,6 +1,9 @@
 package proxyServer;
 import ProxyHandler.ProxyHandler;
+import config.ConfigurationLoader;
+import config.ConfigurationValidator;
 import config.ProxyConfiguration;
+import config.ProxyPropertyConfig;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,9 +15,15 @@ public class ProxyServer {
 
     private final ProxyConfiguration configuration;
 
-    public ProxyServer(int port){
-        this.port = port;
-        this.configuration = new ProxyConfiguration();
+    public ProxyServer(){
+        ConfigurationLoader loader = new ConfigurationLoader();
+
+        ProxyPropertyConfig property = loader.load();
+
+        new ConfigurationValidator().validate(property);
+        this.configuration = new ProxyConfiguration(property);
+
+        this.port = property.getProxyPort();
     }
 
     public void start(){
