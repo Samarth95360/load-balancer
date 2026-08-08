@@ -16,11 +16,8 @@ public class RequestForwarder {
     private final HttpClient httpClient;
     private final RequestBodyPublisherFactory publisherFactory;
 
-    public RequestForwarder(ProxyPropertyConfig config) {
-        this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(config.getConnectTimeout()))
-                .followRedirects(HttpClient.Redirect.NEVER)
-                .version(HttpClient.Version.HTTP_1_1).build();
+    public RequestForwarder(HttpClient httpClient) {
+        this.httpClient = httpClient;
 
         this.publisherFactory = new RequestBodyPublisherFactory();
     }
