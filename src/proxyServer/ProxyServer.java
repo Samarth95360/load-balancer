@@ -22,6 +22,7 @@ public class ProxyServer {
 
         new ConfigurationValidator().validate(property);
         this.configuration = new ProxyConfiguration(property);
+        this.configuration.startHealthCheck();
 
         this.port = property.getProxyPort();
     }

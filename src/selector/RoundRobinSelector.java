@@ -27,12 +27,27 @@ public class RoundRobinSelector implements BackendSelector{
             );
         }
 
-        int index = Math.floorMod(
-                counter.getAndIncrement(),
-                backends.size()
-        );
+        int size = backends.size();
 
-        return backends.get(index);
+        for (int i = 0; i < size; i++) {
+
+            int index =
+                    Math.floorMod(
+                            counter.getAndIncrement(),
+                            size
+                    );
+
+            BackendServer backend =
+                    backends.get(index);
+
+            if (backend.isHealthy()) {
+                return backend;
+            }
+        }
+
+        throw new IllegalStateException(
+                "No healthy backend available."
+        );
 
     }
 }
