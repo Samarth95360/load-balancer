@@ -5,6 +5,8 @@ public class BackendServer {
     private final String host;
     private final int port;
 
+    private volatile boolean healthy = true;
+
     public BackendServer(String host, int port) {
         this.host = host;
         this.port = port;

@@ -1,11 +1,13 @@
 package config;
 
+import backend.BackendRegistry;
 import backend.BackendServer;
 import forword.RequestForwarder;
 import http.HttpRequestParser;
 import http.HttpResponseMapper;
 import response.HttpResponseWriter;
 import selector.BackendSelector;
+import selector.RoundRobinSelector;
 import selector.SingleBackendSelector;
 
 public class ProxyConfiguration {
@@ -26,10 +28,9 @@ public class ProxyConfiguration {
         this.requestForwarder = new RequestForwarder(config);
         this.responseMapper = new HttpResponseMapper();
         this.responseWriter = new HttpResponseWriter();
+        BackendRegistry registry = new BackendRegistry(config.getBackends());
 
-        BackendConfiguration backend = config.getBackends().getFirst();
-
-        this.backendSelector = new SingleBackendSelector(new BackendServer(backend.getHost(), backend.getPort()));
+        this.backendSelector = new RoundRobinSelector(registry);
     }
 
     public HttpResponseMapper getResponseMapper() {
